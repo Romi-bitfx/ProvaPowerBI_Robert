@@ -1,4 +1,4 @@
-name: Scraping Manual de Apple
+name: Scraping Manual de Libros
 
 on:
   workflow_dispatch: # 👈 Único disparador activo. Solo se ejecuta haciendo clic en el botón.
