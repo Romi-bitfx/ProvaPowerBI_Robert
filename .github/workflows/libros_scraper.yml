@@ -22,4 +22,4 @@ jobs:
         pip install requests beautifulsoup4
 
     - name: 4. Ejecutando Scraper de Apple
-      run: python apple.py
+      run: python scraper_libros.py
