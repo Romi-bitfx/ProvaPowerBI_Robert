@@ -1,7 +1,11 @@
-name: Scraping Manual de Libros
+name: Scraping Manual con Guardado en Repo de Libros
 
 on:
-  workflow_dispatch: # 👈 Único disparador activo. Solo se ejecuta haciendo clic en el botón.
+  workflow_dispatch: # Solo se ejecuta al pulsar el botón en GitHub
+
+# ⚠️ MUY IMPORTANTE: Da permisos al script para modificar y subir archivos al repositorio
+permissions:
+  contents: write
 
 jobs:
   scraper-job:
@@ -23,3 +27,18 @@ jobs:
 
     - name: 4. Ejecutando Scraper de Libros
       run: python scraper_libros.py
+
+    - name: 5. Guardar y subir cambios al repositorio
+      run: |
+        # Configurar un usuario bot de Git para que firme el commit
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        
+        # Añadir el archivo generado al área de preparación (stage)
+        git add libros.txt
+        
+        # Hacer el commit. Si no hay cambios (porque los precios no variaron), evitamos que falle con un "|| echo"
+        git commit -m "🤖 Actualización automática: libros.txt [skip ci]" || echo "No hay cambios detectados en el archivo."
+        
+        # Subir los cambios a la rama activa del repositorio
+        git push
